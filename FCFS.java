@@ -1,63 +1,61 @@
 import java.util.Queue;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class FCFS extends BaseClass{
-	public static LinkedList<TimeSlice> ganttChart performFCFS(Job[] jobs){
+	public static LinkedList<TimeSlice> performFCFS(Job[] jobs){
 		if(jobs.length == 0)
-			throw new IllegalArgumentExeption("No jobs available");
+			throw new IllegalArgumentException("No jobs available");
 
-		Queue<Job> q=new Queue<Job>();
+		Queue<Job> q=new LinkedList<Job>();
 		if(q==null)
-			throw new IllegalArgumentExeption("Queue could not be made");
+			throw new IllegalArgumentException("Queue could not be made");
 
 		LinkedList<TimeSlice> ganttChart=new LinkedList<TimeSlice>();
-		if(ganntChart==null)
+		if(ganttChart==null)
 			throw new IllegalArgumentException();
 		
 		double timeElapsed=0;
 		int jobno=-1;		//index of the last job enqueued
 
 		while(jobno<jobs.length-1 || !q.isEmpty()){
+			//System.out.println(q);	
 			if(q.isEmpty()){
 				timeElapsed=jobs[jobno+1].at;
+				q.add(jobs[jobno+1]);
 				jobno++;
-				while(timeElapsed==jobs[jobno].at)
-					q.enqueue(jobs[jobno]);
+				while(jobno<jobs.length-1 && timeElapsed==jobs[jobno+1].at){
+					q.add(jobs[jobno+1]);
+					jobno++;
+				}
+
 				continue;
 			}
-			
-			Job selected=q.dequeue();
+			Job selected=q.remove();
 			TimeSlice ts=new TimeSlice(selected.name,timeElapsed);
+			//ts.show();
 			ganttChart.add(ts);
 			timeElapsed+=selected.bt;
 			
-			while(jobno<jobs.length-1 && timeElapsed>=jobs[jobno+1]){
-				q.enqueue(jobs[jobno+1]);
+			while(jobno<jobs.length-1 && timeElapsed>=jobs[jobno+1].at){
+				q.add(jobs[jobno+1]);
 				jobno++;
 			}
 		}
 		return refineGanttChart(ganttChart);
 	}
-	public static LinkedList<TimeSlice> refineGanttChart(LinkedList<TimeSlice> ganttChart){
-		for(int i=0;i<ganttChart.size()-1;){
-			String processName=ganttChart.get(i).jobName;
-			int j=i+1;
-			while(j<ganttChart.size()){
-				ganttChart.remove(j);
-				j++:
-			}
-			i=j;
-		}
-		return ganttChart;
-	}
 	public static void main(String args[]){
-		Job[] jobs=new Job[5];
-		jobs[0]=new Job();
-		jobs[1]=new Job();
-		jobs[2]=new Job();
-		jobs[3]=new Job();
+		Job[] jobs=new Job[3];
+		jobs[0]=new Job(0,21,"P1");
+		jobs[1]=new Job(0,3,"P2");
+		jobs[2]=new Job(0,4,"P3");
+		//jobs[3]=new Job(0,);
 		LinkedList<TimeSlice> ganttChart=performFCFS(jobs);
-		System.out.println("Hello World");
+		System.out.println("Gantt Chart");
+
+		for(TimeSlice timeSlice : ganttChart)
+			timeSlice.show();
+
 	}
 }	
 

@@ -75,19 +75,6 @@ public class SJF extends BaseClass{
 		return refineGanttChart(ganttChart);
 	
 	}
-	public static LinkedList<TimeSlice> refineGanttChart(LinkedList<TimeSlice> ganttChart){
-		int i=0;
-		while(i<ganttChart.size()){
-			String processName=ganttChart.get(i).jobName;
-			int j=i+1;
-			while(j<ganttChart.size() && processName==ganttChart.get(j).jobName){
-				ganttChart.remove(j);
-			}
-			i=j;
-		}
-		return ganttChart;
-
-	}
 	public static void main(String args[]){
 		Job[] jobs=new Job[5];
 		jobs[0]=new Job(0,12,"P2");
