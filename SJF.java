@@ -5,31 +5,7 @@ import java.util.LinkedList;
 import java.util.Arrays;
 import java.lang.Math;
 
-public class SJF{
-	public static final double EPS=1e-6;
-	static class Job{
-		public double at;
-		public double bt;
-		public String name;
-		public Job(double at,double bt,String name){
-			this.at=at;
-			this.bt=bt;
-			this.name=name;
-		}
-	}
-	static class TimeSlice{
-		public String jobName;
-		public double startTime;
-		public TimeSlice(String jobName,double startTime){
-			this.jobName=jobName;
-			this.startTime=startTime;
-		}
-		public void show(){
-			System.out.print(String.format("|StartTime: %.2f Job: %s |",startTime,jobName));
-		}
-	
-	}
-
+public class SJF extends BaseClass{
 	public static LinkedList<TimeSlice> performSJF(Job[] jobs){	
 		Scanner in=new Scanner(System.in);
 		//GantChart array will have the time slices for all the jobs
@@ -109,17 +85,15 @@ public class SJF{
 	}
 	public static LinkedList<TimeSlice> refineGanttChart(LinkedList<TimeSlice> ganttChart){
 		int i=0;
-		LinkedList<TimeSlice> refinedGanttChart=new LinkedList<TimeSlice>();
 		while(i<ganttChart.size()){
-			refinedGanttChart.add(ganttChart.get(i));
 			String processName=ganttChart.get(i).jobName;
 			int j=i+1;
 			while(j<ganttChart.size() && processName==ganttChart.get(j).jobName){
-				j++;
+				ganttChart.remove(j);
 			}
 			i=j;
 		}
-		return refinedGanttChart;
+		return ganttChart;
 
 	}
 	public static void main(String args[]){
