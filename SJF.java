@@ -37,20 +37,12 @@ public class SJF extends BaseClass{
 		if(ganttChart==null)
 			throw new IllegalArgumentException("Gantt Chart could not be initialised");
 
-		//System.out.println("Echo1");
 		Arrays.sort(jobs,sortComparator);
-		/*
-		for(Job job : jobs){
-			System.out.print(job.name+" ");
-		}
-		*/
-		//System.out.println("Echo2");
 		int jobno=-1;		//Maintains the job number last arrived in
 		double timeElapsed=0;
 		
 		//Execution until all jobs are in the priority queue
 		while(jobno<jobs.length-1){
-			//System.out.println(timeElapsed);
 			if(pq.isEmpty()){
 				timeElapsed=jobs[jobno+1].at;
 				while(jobno<jobs.length-1 && jobs[jobno+1].at==timeElapsed){
