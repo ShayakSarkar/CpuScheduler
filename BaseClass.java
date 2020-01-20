@@ -34,9 +34,8 @@ public class BaseClass{
 		for(int i=0;i<ganttChart.size()-1;){
 			String processName=ganttChart.get(i).jobName;
 			int j=i+1;
-			while(j<=ganttChart.size() && ganttChart.get(j).jobName==processName){
+			while(j<ganttChart.size() && ganttChart.get(j).jobName==processName){
 				ganttChart.remove(j);
-				j++;
 			}
 			i=j;
 		}
